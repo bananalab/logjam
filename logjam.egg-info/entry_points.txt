@@ -1,0 +1,4 @@
+
+        [console_scripts]
+        logjam=logjam.main:cli
+    

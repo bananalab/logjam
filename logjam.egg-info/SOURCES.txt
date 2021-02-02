@@ -1,0 +1,10 @@
+README.md
+setup.py
+logjam/__init__.py
+logjam/main.py
+logjam.egg-info/PKG-INFO
+logjam.egg-info/SOURCES.txt
+logjam.egg-info/dependency_links.txt
+logjam.egg-info/entry_points.txt
+logjam.egg-info/requires.txt
+logjam.egg-info/top_level.txt
