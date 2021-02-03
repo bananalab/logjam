@@ -10,6 +10,7 @@ lorem = "*"
 python-json-logger = "*"
 ipython = "*"
 logjam = {path = ".", editable = true}
+coloredlogs = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"

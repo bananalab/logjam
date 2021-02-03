@@ -16,9 +16,6 @@ json_formatter = jsonlogger.JsonFormatter()
 json_logHandler.setFormatter(json_formatter)
 json_logger.addHandler(json_logHandler)
 
-color_logger = logging.getLogger('colorlogger')
-coloredlogs.install(logger=color_logger)
-
 @click.command()
 def cli():
     word_count = len(lorem.data.WORDS) - 1
@@ -31,7 +28,6 @@ def cli():
             'ns': f'{lorem.data.WORDS[random.randint(0,word_count)]}.{lorem.data.WORDS[random.randint(0,word_count)]}'
         }
         json_logger.log(level, log)
-        color_logger.log(level, log["msg"])
         time.sleep(random.randint(1,10))
 
 def stacktrace():
