@@ -32,6 +32,7 @@ def cli():
         }
         json_logger.log(level, log)
         color_logger.log(level, log["msg"])
+        print('Testing')
         time.sleep(random.randint(1,10))
 
 def stacktrace():
