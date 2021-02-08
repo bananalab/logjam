@@ -1,5 +1,4 @@
 import click
-import coloredlogs
 import datetime
 import logging
 import lorem
@@ -31,8 +30,7 @@ def cli():
             'ns': f'{lorem.data.WORDS[random.randint(0,word_count)]}.{lorem.data.WORDS[random.randint(0,word_count)]}'
         }
         json_logger.log(level, log)
-        color_logger.log(level, log["msg"])
-        print('Testing')
+        print(f'\033[3{int(level/10)+1}m{log["level"]}\033[0m: {level/10} {log["msg"]}')
         time.sleep(random.randint(1,10))
 
 def stacktrace():

@@ -8,9 +8,7 @@ verify_ssl = true
 [packages]
 lorem = "*"
 python-json-logger = "*"
-ipython = "*"
 logjam = {path = ".", editable = true}
-coloredlogs = "*"
 
 [requires]
 python_version = "3.8"
