@@ -15,8 +15,6 @@ json_formatter = jsonlogger.JsonFormatter()
 json_logHandler.setFormatter(json_formatter)
 json_logger.addHandler(json_logHandler)
 
-color_logger = logging.getLogger('colorlogger')
-coloredlogs.install(logger=color_logger)
 
 @click.command()
 def cli():
