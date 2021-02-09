@@ -28,7 +28,7 @@ def cli():
             'ns': f'{lorem.data.WORDS[random.randint(0,word_count)]}.{lorem.data.WORDS[random.randint(0,word_count)]}'
         }
         json_logger.log(level, log)
-        print(f'\033[3{int(level/10)+1}m{log["level"]}\033[0m: {level/10} {log["msg"]}')
+        sys.stderr.write(f'\033[3{int(level/10)+1}m{log["level"]}\033[0m: {log["msg"]}\n')
         time.sleep(random.randint(1,10))
 
 def stacktrace():
