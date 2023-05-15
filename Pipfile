@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 lorem = "*"
 python-json-logger = "*"
+colorlog = "*"
 logjam = {path = ".", editable = true}
 
 [requires]

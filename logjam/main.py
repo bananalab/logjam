@@ -1,4 +1,5 @@
 import click
+import colorlog
 import datetime
 import logging
 import lorem
@@ -10,30 +11,54 @@ from pythonjsonlogger import jsonlogger
 
 
 json_logger = logging.getLogger('jsonlogger')
-json_logHandler = logging.StreamHandler()
-json_formatter = jsonlogger.JsonFormatter()
-json_logHandler.setFormatter(json_formatter)
-json_logger.addHandler(json_logHandler)
+json_logger.setLevel(logging.DEBUG)
+json_handler = logging.StreamHandler()
+json_logger.addHandler(json_handler)
+json_handler.setFormatter(jsonlogger.JsonFormatter())
 
+color_logger = colorlog.getLogger('colorlogger')
+color_logger.setLevel(logging.DEBUG)
+color_handler = colorlog.StreamHandler()
+color_logger.addHandler(color_handler)
+color_handler.setFormatter(
+    colorlog.ColoredFormatter(
+        "%(log_color)s%(levelname)-8s%(reset)s %(asctime)s %(blue)s%(message)s"
+        )
+)
+
+text_logger = logging.getLogger('textlogger')
+text_logger.setLevel(logging.DEBUG)
+text_handler = logging.StreamHandler()
+text_logger.addHandler(text_handler)
+text_handler.setFormatter(
+    logging.Formatter('%(levelname)-8s %(asctime)s %(message)s')
+)
 
 @click.command()
-def cli():
+@click.option('--min-delay', default=1, help='Minimum number of seconds between log messages.')
+@click.option('--max-delay', default=10, help='Maximum number of seconds between log messages.')
+@click.option('--delay', default=None, type=click.FLOAT, help='Number of seconds between log messages.')
+@click.option('--format',
+              type=click.Choice(['json', 'text', 'color-text'], case_sensitive=False),
+              default='json')
+def cli( min_delay, max_delay, delay, format):
     word_count = len(lorem.data.WORDS) - 1
     while True:
         level = random.randint(0,5) * 10
         log = {
-            'msg': lorem.sentence(),
+            'message': lorem.sentence(),
             'level': logging.getLevelName(level),
             'timestamp': datetime.datetime.now(datetime.timezone.utc),
-            'ns': f'{lorem.data.WORDS[random.randint(0,word_count)]}.{lorem.data.WORDS[random.randint(0,word_count)]}'
         }
-        json_logger.log(level, log)
-        sys.stderr.write(f'\033[3{int(level/10)+1}m{log["level"]}\033[0m: {log["msg"]}\n')
-        time.sleep(random.randint(1,10))
 
-def stacktrace():
-    datafile = os.path.join(os.path.split(__file__)[0], 'java_stacktrace.txt')
-    with open(datafile,'r') as fh:
-      clj_stacktrace = fh.readlines()
-    for line in clj_stacktrace:
-        sys.stdout.write(line)
+        if format == 'json':
+            json_logger.log(level, log)
+        elif format == 'color-text':
+            color_logger.log(level, log["message"])
+        elif format == 'text':
+            text_logger.log(level, log["message"])
+
+        if delay == None:
+            time.sleep(random.randint(min_delay, max_delay))
+        else:
+            time.sleep(delay)
